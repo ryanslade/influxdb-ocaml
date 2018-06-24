@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name influxdb)
+  (inline_tests ((flags (-show-counts))))
+  (preprocess (pps (ppx_expect)))
+  (libraries (base stdio))))
