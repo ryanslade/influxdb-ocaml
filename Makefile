@@ -1,8 +1,8 @@
 influx: 
-	jbuilder build @install
+	jbuilder build --dev @install
 
 test:
-	jbuilder runtest
+	jbuilder runtest --dev
 
 clean:
 	jbuilder clean
