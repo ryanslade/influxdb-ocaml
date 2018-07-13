@@ -1,9 +1,9 @@
 influx: 
-	jbuilder build --dev @install
+	dune build @install
 
 test:
-	jbuilder runtest --dev
+	dune runtest
 
 clean:
-	jbuilder clean
+	dune clean
 
