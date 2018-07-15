@@ -8,6 +8,7 @@ type ping_response = {
   version : string;
 }
 
+(* Return the body text if we get an error response  *)
 let fail_if_http_error resp body =
   let code = resp |> Response.status |> Code.code_of_status in
   if Code.is_error code

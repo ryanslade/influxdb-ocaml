@@ -30,7 +30,6 @@ end
 module TimestampNS = struct
   type t = int64
 
-
   let of_float_seconds f =
     let ns_per_sec = 1_000_000_000L in
     f *. (Float.of_int64 ns_per_sec) |> Int64.of_float
