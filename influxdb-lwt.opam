@@ -6,13 +6,15 @@ authors: "Ryan Slade <ryanslade@gmail.com>"
 homepage: "https://github.com/ryanslade/influxdb-ocaml"
 bug-reports: "https://github.com/ryanslade/influxdb-ocaml/issues"
 dev-repo: "https://github.com/ryanslade/influxdb-ocaml.git"
-build: [["jbuilder" "build" "-p" name "-j" jobs]]
+build: [["dune" "build" "-p" name "-j" jobs]]
 depends: [
   "dune" {build}
   "base"
   "alcotest" {test}
   "influxdb"
   "lwt"
+  "cohttp"
+  "cohttp-lwt-unix"
 ]
 available: [
   ocaml-version >= "4.04.0"
