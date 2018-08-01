@@ -1,11 +1,11 @@
-opam-version: "1.2"
+opam-version: "2.0"
 name: "influxdb-async"
 version: "0.1.0"
 maintainer: "Ryan Slade <ryanslade@gmail.com>"
 authors: "Ryan Slade <ryanslade@gmail.com>"
 homepage: "https://github.com/ryanslade/influxdb-ocaml"
 bug-reports: "https://github.com/ryanslade/influxdb-ocaml/issues"
-dev-repo: "https://github.com/ryanslade/influxdb-ocaml.git"
+dev-repo: "git://github.com/ryanslade/influxdb-ocaml.git"
 build: [["dune" "build" "-p" name "-j" jobs]]
 depends: [
   "dune" {build}
@@ -15,7 +15,5 @@ depends: [
   "async"
   "cohttp"
   "cohttp-async"
-]
-available: [
-  ocaml-version >= "4.04.0"
+  "ocaml" {>= "4.04.0"}
 ]
