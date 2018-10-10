@@ -94,11 +94,7 @@ module Field = struct
     | Float f -> Float.to_string f
     | Int i -> Int.to_string i
     | String s -> s
-    | Bool b -> begin
-        match b with
-        | true -> "t"
-        | false -> "f"
-      end
+    | Bool b -> if b then "t" else "f"
 
   let to_string (k, v) =
     k ^ "=" ^ (v_to_string v)
@@ -114,6 +110,7 @@ module Field = struct
 
   let bool name value =
     (name, Bool value)
+
 end
 
 module Point = struct
