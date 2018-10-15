@@ -120,7 +120,7 @@ module Point = struct
     tags : (string * string) list;
     extra_fields : Field.t list;
     (* If None, a timestamp will be assigned by InfluxDB  *)
-    timestamp_ns : TimestampNS.t option;
+    timestamp : TimestampNS.t option;
   }
 
   (* Returns the line format representation of [t] *)
@@ -134,16 +134,16 @@ module Point = struct
       | tt -> "," ^ ((List.map ~f:(fun (k, v) -> k ^ "=" ^ v) tt) |> String.concat ~sep:",")
     in
     let line = Printf.sprintf "%s%s %s" t.name tags fields in
-    match t.timestamp_ns with
+    match t.timestamp with
     | None -> line
     | Some ts -> line ^ " " ^ (TimestampNS.to_string_precision precision ts)
 
-  let create ?(tags=[]) ?(extra_fields=[]) ?timestamp_ns ~field name = {
+  let create ?(tags=[]) ?(extra_fields=[]) ?timestamp ~field name = {
     name;
     field;
     tags;
     extra_fields;
-    timestamp_ns;
+    timestamp;
   }
 
   (* TESTS  *)
@@ -154,7 +154,7 @@ module Point = struct
         field = ("value", Int 100);
         tags = [("tag1","val1");("tag2","val2")];
         extra_fields = [("bool",Bool true); ("float", Float 1.23); ("int", Int 123); ("string", String "string")];
-        timestamp_ns = Some 1529349109966270847L;
+        timestamp = Some 1529349109966270847L;
       });
     [%expect{| count,tag1=val1,tag2=val2 value=100,bool=t,float=1.23,int=123,string=string 1529349109966270847 |}]
 
@@ -164,7 +164,7 @@ module Point = struct
         field = ("value", Int 100);
         tags = [("tag1","val1");("tag2","val2")];
         extra_fields = [("bool",Bool true)];
-        timestamp_ns = Some 1529349109966270847L;
+        timestamp = Some 1529349109966270847L;
       });
     [%expect{| count,tag1=val1,tag2=val2 value=100,bool=t 1529349109 |}]
 
@@ -174,7 +174,7 @@ module Point = struct
         field = ("value", Int 100);
         tags = [("tag1","val1");("tag2","val2")];
         extra_fields = [("bool",Bool true)];
-        timestamp_ns = None;
+        timestamp = None;
       });
     [%expect{| count,tag1=val1,tag2=val2 value=100,bool=t |}]
 
@@ -184,7 +184,7 @@ module Point = struct
         field = ("value", Int 100);
         tags = [];
         extra_fields = [("bool",Bool true)];
-        timestamp_ns = None;
+        timestamp = None;
       });
     [%expect{| count value=100,bool=t |}]
 
@@ -192,5 +192,17 @@ module Point = struct
     let m = create "count" ~field:("value", Int 100) in
     Stdio.print_endline (to_line m);
     [%expect{| count value=100 |}]
+
+end
+
+module Protocol = struct
+
+  let header_build = "X-Influxdb-Build"
+  let header_version =  "X-Influxdb-Version"
+
+  type ping_response = {
+    build : string;
+    version : string;
+  }
 
 end
