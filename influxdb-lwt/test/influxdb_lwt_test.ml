@@ -13,9 +13,9 @@ let test_write host _ () =
   return_unit
 
 let test_write_with_ts host _ () =
-  let timestamp_ns = Unix.gettimeofday () |> Influxdb.TimestampNS.of_float_seconds in
+  let timestamp = Unix.gettimeofday () |> Influxdb.TimestampNS.of_float_seconds in
   let field = Influxdb.Field.int "value" 123 in
-  let points = [Influxdb.Point.create ~timestamp_ns ~field "thing"; Influxdb.Point.create ~field "thing";] in
+  let points = [Influxdb.Point.create ~timestamp ~field "thing"; Influxdb.Point.create ~field "thing";] in
   Client.write ~database:"thing" ~points host >>= fun () ->
   return_unit
 

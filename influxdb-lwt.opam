@@ -1,6 +1,6 @@
 opam-version: "2.0"
 name: "influxdb-lwt"
-version: "0.1.0"
+version: "0.2.0"
 synopsis: "InfluxDB client library using lwt for concurrency"
 description: "A client library for writing time series data to InfluxDB"
 maintainer: "Ryan Slade <ryanslade@gmail.com>"
