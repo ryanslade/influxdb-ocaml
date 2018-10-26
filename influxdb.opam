@@ -13,5 +13,6 @@ depends: [
   "dune" {build}
   "base"
   "stdio"
+  "ppx_expect"
   "ocaml" {>= "4.04.0"}
 ]
