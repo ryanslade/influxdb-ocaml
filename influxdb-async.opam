@@ -1,6 +1,6 @@
 opam-version: "2.0"
 name: "influxdb-async"
-version: "0.2.0"
+version: "0.3.0"
 synopsis: "InfluxDB client library using async for concurrency"
 description: "A client library for writing time series data to InfluxDB"
 maintainer: "Ryan Slade <ryanslade@gmail.com>"

@@ -1,8 +1,3 @@
-(executable
+(test
  (name influxdb_async_test)
  (libraries influxdb_async alcotest-async))
-
-(alias
- (name runtest)
- (deps influxdb_async_test.exe)
- (action (run ./influxdb_async_test.exe)))
