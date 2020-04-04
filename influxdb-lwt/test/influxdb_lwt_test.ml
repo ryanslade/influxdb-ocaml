@@ -5,7 +5,7 @@ open Influxdb_lwt
 let test_ping host _ () = Client.ping host >>= fun _ -> return_unit
 
 let test_write host _ () =
-  let field = Influxdb.Field.int "value" 123 in
+  let field = Influxdb.Field.int 123 in
   let points =
     [
       Influxdb.Point.create ~field "thing"; Influxdb.Point.create ~field "thing";
@@ -17,7 +17,7 @@ let test_write_with_ts host _ () =
   let timestamp =
     Unix.gettimeofday () |> Influxdb.TimestampNS.of_float_seconds
   in
-  let field = Influxdb.Field.int "value" 123 in
+  let field = Influxdb.Field.int 123 in
   let points =
     [
       Influxdb.Point.create ~timestamp ~field "thing";

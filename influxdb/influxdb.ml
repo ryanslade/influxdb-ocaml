@@ -96,13 +96,13 @@ module Field = struct
 
   let to_string (k, v) = k ^ "=" ^ v_to_string v
 
-  let float name value = (name, Float value)
+  let float ?(name = "value") value = (name, Float value)
 
-  let int name value = (name, Int value)
+  let int ?(name = "value") value = (name, Int value)
 
-  let string name value = (name, String value)
+  let string ?(name = "value") value = (name, String value)
 
-  let bool name value = (name, Bool value)
+  let bool ?(name = "value") value = (name, Bool value)
 end
 
 module Point = struct

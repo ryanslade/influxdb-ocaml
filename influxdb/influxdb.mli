@@ -38,16 +38,16 @@ module Field : sig
   val v_to_string : field_value -> string
   (** Field value to string *)
 
-  val float : string -> float -> t
+  val float : ?name:string -> float -> t
   (** Create field with a float value *)
 
-  val int : string -> int -> t
+  val int : ?name:string -> int -> t
   (** Create field with a int value *)
 
-  val string : string -> string -> t
+  val string : ?name:string -> string -> t
   (** Create field with a string value *)
 
-  val bool : string -> bool -> t
+  val bool : ?name:string -> bool -> t
   (** Create field with a bool value *)
 end
 
