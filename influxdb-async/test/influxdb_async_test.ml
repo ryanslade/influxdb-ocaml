@@ -11,7 +11,7 @@ let test_write host () =
       Influxdb.Point.create ~field "thing"; Influxdb.Point.create ~field "thing";
     ]
   in
-  Client.write ~database:"thing" ~points host >>= fun _ -> return ()
+  Client.write ~database:"thing" ~host points >>= fun _ -> return ()
 
 let test_write_with_ts host () =
   let timestamp =
@@ -24,9 +24,9 @@ let test_write_with_ts host () =
       Influxdb.Point.create ~field "thing";
     ]
   in
-  Client.write ~database:"thing" ~points host >>= fun _ -> return ()
+  Client.write ~database:"thing" ~host points >>= fun _ -> return ()
 
-let test_host = "172.17.0.2"
+let test_host = "localhost"
 
 (** 
    These tests expect a running instance of influxdb with a database called "thing".

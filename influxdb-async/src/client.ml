@@ -24,8 +24,8 @@ let ping ?(port = 8086) host =
       let open Protocol in
       return { build; version }
 
-let write ?(precision = Precision.Nanosecond) ?(port = 8086) ~database ~points
-    host =
+let write ?(precision = Precision.Nanosecond) ?(port = 8086) ~database ~host
+    points =
   if List.is_empty points then failwith "No points"
   else
     let body =

@@ -5,7 +5,7 @@ val write :
   ?precision:Influxdb.Precision.t ->
   ?port:int ->
   database:string ->
-  points:Influxdb.Point.t list ->
-  string ->
+  host:string ->
+  Influxdb.Point.t list ->
   unit Lwt.t
 (** Write a list of points to the host supplied *)
