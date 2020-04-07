@@ -1,8 +1,8 @@
 influx: 
-	dune build @install
+	dune build
 
 test:
-	dune runtest
+	dune test
 
 doc:
 	dune build @doc
