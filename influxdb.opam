@@ -10,7 +10,7 @@ bug-reports: "https://github.com/ryanslade/influxdb-ocaml/issues"
 dev-repo: "git://github.com/ryanslade/influxdb-ocaml.git"
 build: [["dune" "build" "-p" name "-j" jobs]]
 depends: [
-  "dune" {build}
+  "dune" {>= "2.0"}
   "base"
   "stdio"
   "ppx_expect"
