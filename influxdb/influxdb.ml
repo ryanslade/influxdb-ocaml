@@ -46,35 +46,26 @@ module TimestampNS = struct
     Stdio.print_endline (to_string_precision Precision.Nanosecond ts);
     [%expect {| 1529414438823913984 |}]
 
-  let%expect_test "to_string_precision_nanoseconds" =
-    Stdio.print_endline
-      (to_string_precision Precision.Nanosecond 1529349109966270847L);
-    [%expect {| 1529349109966270847 |}]
-
-  let%expect_test "to_string_precision_microsecond" =
-    Stdio.print_endline
-      (to_string_precision Precision.Microsecond 1529349109966270847L);
-    [%expect {| 1529349109966270 |}]
-
-  let%expect_test "to_string_precision_millisecond" =
-    Stdio.print_endline
-      (to_string_precision Precision.Millisecond 1529349109966270847L);
-    [%expect {| 1529349109966 |}]
-
-  let%expect_test "to_string_precision_second" =
-    Stdio.print_endline
-      (to_string_precision Precision.Second 1529349109966270847L);
-    [%expect {| 1529349109 |}]
-
-  let%expect_test "to_string_precision_minute" =
-    Stdio.print_endline
-      (to_string_precision Precision.Minute 1529349109966270847L);
-    [%expect {| 25489151 |}]
-
-  let%expect_test "to_string_precision_hour" =
-    Stdio.print_endline
-      (to_string_precision Precision.Hour 1529349109966270847L);
-    [%expect {| 424819 |}]
+  let%expect_test "to_string" =
+    let cases =
+      [
+        to_string_precision Precision.Nanosecond 1529349109966270847L;
+        to_string_precision Precision.Microsecond 1529349109966270847L;
+        to_string_precision Precision.Millisecond 1529349109966270847L;
+        to_string_precision Precision.Second 1529349109966270847L;
+        to_string_precision Precision.Minute 1529349109966270847L;
+        to_string_precision Precision.Hour 1529349109966270847L;
+      ]
+    in
+    List.iter cases ~f:(fun s -> Stdio.print_endline s);
+    [%expect
+      {|
+      1529349109966270847
+      1529349109966270
+      1529349109966
+      1529349109
+      25489151
+      424819 |}]
 end
 
 module Field = struct
@@ -140,59 +131,55 @@ module Point = struct
   (* TESTS  *)
 
   let%expect_test "to_line" =
-    Stdio.print_endline
-      (to_line
-         {
-           name = "count";
-           field = ("value", Int 100);
-           tags = [ ("tag1", "val1"); ("tag2", "val2") ];
-           extra_fields =
-             [
-               ("bool", Bool true);
-               ("float", Float 1.23);
-               ("int", Int 123);
-               ("string", String "string");
-             ];
-           timestamp = Some 1529349109966270847L;
-         });
+    let cases =
+      [
+        to_line
+          {
+            name = "count";
+            field = ("value", Int 100);
+            tags = [ ("tag1", "val1"); ("tag2", "val2") ];
+            extra_fields =
+              [
+                ("bool", Bool true);
+                ("float", Float 1.23);
+                ("int", Int 123);
+                ("string", String "string");
+              ];
+            timestamp = Some 1529349109966270847L;
+          };
+        to_line ~precision:Precision.Second
+          {
+            name = "count";
+            field = ("value", Int 100);
+            tags = [ ("tag1", "val1"); ("tag2", "val2") ];
+            extra_fields = [ ("bool", Bool true) ];
+            timestamp = Some 1529349109966270847L;
+          };
+        to_line
+          {
+            name = "count";
+            field = ("value", Int 100);
+            tags = [ ("tag1", "val1"); ("tag2", "val2") ];
+            extra_fields = [ ("bool", Bool true) ];
+            timestamp = None;
+          };
+        to_line
+          {
+            name = "count";
+            field = ("value", Int 100);
+            tags = [];
+            extra_fields = [ ("bool", Bool true) ];
+            timestamp = None;
+          };
+      ]
+    in
+    List.iter cases ~f:(fun s -> Stdio.print_endline s);
     [%expect
-      {| count,tag1=val1,tag2=val2 value=100,bool=t,float=1.23,int=123,string=string 1529349109966270847 |}]
-
-  let%expect_test "to_line_seconds" =
-    Stdio.print_endline
-      (to_line ~precision:Precision.Second
-         {
-           name = "count";
-           field = ("value", Int 100);
-           tags = [ ("tag1", "val1"); ("tag2", "val2") ];
-           extra_fields = [ ("bool", Bool true) ];
-           timestamp = Some 1529349109966270847L;
-         });
-    [%expect {| count,tag1=val1,tag2=val2 value=100,bool=t 1529349109 |}]
-
-  let%expect_test "to_line_no_timestamp" =
-    Stdio.print_endline
-      (to_line
-         {
-           name = "count";
-           field = ("value", Int 100);
-           tags = [ ("tag1", "val1"); ("tag2", "val2") ];
-           extra_fields = [ ("bool", Bool true) ];
-           timestamp = None;
-         });
-    [%expect {| count,tag1=val1,tag2=val2 value=100,bool=t |}]
-
-  let%expect_test "to_line_no_tags" =
-    Stdio.print_endline
-      (to_line
-         {
-           name = "count";
-           field = ("value", Int 100);
-           tags = [];
-           extra_fields = [ ("bool", Bool true) ];
-           timestamp = None;
-         });
-    [%expect {| count value=100,bool=t |}]
+      {|
+        count,tag1=val1,tag2=val2 value=100,bool=t,float=1.23,int=123,string=string 1529349109966270847
+        count,tag1=val1,tag2=val2 value=100,bool=t 1529349109
+        count,tag1=val1,tag2=val2 value=100,bool=t
+        count value=100,bool=t |}]
 
   let%expect_test "create" =
     let m = create "count" ~field:("value", Int 100) in
